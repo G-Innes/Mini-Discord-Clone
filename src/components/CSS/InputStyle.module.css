@@ -1,0 +1,17 @@
+.input {
+  background-color: #40444b;
+  color: #ffffff;
+  border: 1px solid #72767d;
+  padding: 10px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.input:focus {
+  border-color: #5865f2;
+  outline: none;
+}
