@@ -37,7 +37,8 @@ export default function Chat({ user }) {
         <div className={styles.chatSection}>
           <div className={styles.messages}>
             {currentMessages.map(msg => (
-              <Message key={msg.id} message={msg} avatarUrl={user.avatarUrl} />
+              console.log(msg),
+              <Message key={msg.id} message={msg.message} avatarUrl={user.avatarUrl} />
             ))}
           </div>
 

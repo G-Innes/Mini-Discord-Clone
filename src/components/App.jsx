@@ -25,6 +25,12 @@ function App() {
     }
   }, [])
 
+  const leaveServer = () => {
+    socket.emit('leaveServer', { username: user.username });
+    setUser({ username: '', avatarUrl: '' });
+    setIsConnected(false);
+  };
+
   if (!user.username) {
     return <LoginForm setUser={setUser} />
   }
@@ -49,6 +55,13 @@ function App() {
             🔴
           </button>
           <p>Connected: {isConnected ? 'Yes' : 'No'}</p>
+          <button
+            className={buttonStyle.button}
+            onClick={leaveServer}
+            style={{ marginLeft: '10px' }}
+          >
+            Leave Server
+          </button>
         </div>
 
         <Chat user={user} />
