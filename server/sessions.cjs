@@ -49,3 +49,7 @@ module.exports = {
     }
   },
 }
+
+// Call the function to initialize the store
+// Need to call get all sessions for userlist and get all users for userlist
+// Call delete session when user leaves server for UserList to render only connected users

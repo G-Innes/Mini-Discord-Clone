@@ -1,20 +1,26 @@
-import buttonStyle from '@/components/CSS/ButtonStyle.module.css'
-import InputStyle from '@/components/CSS/InputStyle.module.css'
+import '@/index.css';
 
 export default function MessageInput({ message, onMessageChange, onSendMessage }) {
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevents the default form submission behavior
+    onSendMessage();
+  };
+
   return (
-    <div style={{ display: 'flex' }}>
+    <form className="flex bg-med-grey text-white p-2" onSubmit={handleSubmit}>
       <input
-        className={InputStyle.input}
+        className="flex-1 p-2 m-3 text-white-800 bg-light-grey rounded shadow-inner focus:outline-none focus:shadow-outline"
         type="text"
         value={message}
         onChange={e => onMessageChange(e.target.value)}
         placeholder="Type a message"
-        onKeyDown={e => e.key === 'Enter' && onSendMessage()}
       />
-      <button className={buttonStyle.button} onClick={onSendMessage}>
+      <button
+        type="submit"
+        className="p-3 bg-med-grey text-white rounded hover:bg-purple focus:outline-none"
+      >
         Send Message
       </button>
-    </div>
-  )
+    </form>
+  );
 }

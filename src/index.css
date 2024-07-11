@@ -1,4 +1,8 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #ffffff;
   background-color: #36393f;
@@ -37,4 +41,4 @@ ul {
 .flex-center {
   justify-content: center;
   align-items: center;
-}
+} */

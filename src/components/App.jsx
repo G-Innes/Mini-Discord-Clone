@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { socket } from '@/libs/socket'
 import LoginForm from '@/components/User/LoginForm'
+
 import Chat from '@/components/Chat'
-import buttonStyle from '@/components/CSS/ButtonStyle.module.css'
-import '../index.css'
-import styles from '@/components/CSS/Layout.module.css'
+import '@/index.css'
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected)
@@ -25,33 +24,15 @@ function App() {
     }
   }, [])
 
+
   if (!user.username) {
     return <LoginForm setUser={setUser} />
   }
 
   return (
     <>
-      <div className={styles.mainView}>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <button
-            className={buttonStyle.button}
-            style={{ borderRadius: 100, width: 20, height: 20, padding: 0 }}
-            onClick={() => socket.connect()}
-          >
-            🟢
-          </button>
-
-          <button
-            className={buttonStyle.button}
-            style={{ borderRadius: 100, width: 20, height: 20, padding: 0 }}
-            onClick={() => socket.disconnect()}
-          >
-            🔴
-          </button>
-          <p>Connected: {isConnected ? 'Yes' : 'No'}</p>
-        </div>
-
-        <Chat user={user} />
+    <div>
+        <Chat user={user} isConnected={isConnected} setIsConnected={setIsConnected} setUser={setUser}/>
       </div>
     </>
   )

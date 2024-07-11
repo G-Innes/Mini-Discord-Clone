@@ -1,6 +1,16 @@
-# How to use this starter kit
+# Discord Clone
 
-The starter kit includes both the Vite + React setup as well as the WebSocket server tailored specifically for the Mini Discord Clone project.
+This application is designed as a miniature version of Discord, providing essential chat functionalities in a simplified interface. Built with React and Vite, the app leverages WebSocket/socket.IO for real-time communication across multiple tabs. Users can see each other's online status, chat in various channels, and switch between different chat rooms seamlessly.
+
+## Description
+
+The Discord Clone is a web application that mimics the core features of Discord. It allows users to:
+
+    -Connect with a unique username.
+    -Select and join different chat channels.
+    -Post messages to specific channels.
+    -View online status of users.
+    -Engage in real-time chat with others across different browser tabs.
 
 ## React application
 
@@ -24,7 +34,6 @@ The WebSocket server uses [socket.io](https://socket.io). The main server file i
 - `user:leave` - client should emit this event when user explicitly leaves the server.
 - `message:channel:send` - client should emit this event when user sends a message to a specific channel.
 
-Inspect the `server.cjs` to see what parameters and arguments are accompanied by each event.
 
 #### Leaving vs disconnecting
 
@@ -35,7 +44,7 @@ Disconnecting, however, means that the user is no longer currently online, but i
 ### WebSocket server state
 
 User list, sessions and messages are stored in memory. When the WebSocket server is restarted, all data is lost.
-
+6
 ### Running the server
 
 After installing dependencies with `npm install`, use the following command to start the WebSocket server:

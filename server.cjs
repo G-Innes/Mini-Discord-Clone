@@ -38,6 +38,7 @@ io.use(async (socket, next) => {
       socket.userId = session.userId
       socket.username = session.username
 
+      sessions.setSession(sessionId, { ...session, connected: true }); // Added to update session as connected
       next()
     }
   }
@@ -88,6 +89,7 @@ io.on('connection', socket => {
     })
 
     sessions.deleteSession(socket.sessionId)
+    io.emit('users:update', sessions.getAllUsers()) // Update all clients
     socket.disconnect()
   })
 
@@ -113,6 +115,8 @@ io.on('connection', socket => {
       ...session,
       connected: false,
     })
+
+    io.emit('users:update', sessions.getAllUsers()) // Update all clients
 
     socket.broadcast.emit('user:disconnect', {
       userId: session.userId,

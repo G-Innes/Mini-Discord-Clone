@@ -6,14 +6,30 @@ export default function useChat({ username, socket }) {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
-    if (!socket.connected) {
+    const storedSessionId = localStorage.getItem('sessionId')
+    if (storedSessionId) {
+      socket.auth = { sessionId: storedSessionId, username }
+    } else {
       socket.auth = { username }
+    }
+
+    if (!socket.connected) {
       socket.connect()
     }
 
     const handleConnect = () => {
       console.log('Connected to Websocket')
-      socket.emit('channels:join', 'welcome') // Join welcome channel on connect
+      socket.emit('channels:join', 'welcome')
+
+      socket.emit('message:channel:send', 'welcome', {
+        message: `${username} has joined the chat!`,
+        user: { username },
+        timestamp: Date.now(),
+      })
+    }
+
+    const handleSession = session => {
+      localStorage.setItem('sessionId', session.sessionId)
     }
 
     const handleChannels = channels => {
@@ -28,20 +44,19 @@ export default function useChat({ username, socket }) {
     }
 
     const handleUsers = users => {
-      setUsers(
-        users.map(user => ({
-          ...user,
-          avatarUrl: `https://api.dicebear.com/9.x/lorelei/svg?seed=${user.username}`,
-        })),
-      )
+      const updatedUsers = users.map(user => ({
+        ...user,
+        avatarUrl: `https://api.dicebear.com/9.x/lorelei/svg?seed=${user.username}`,
+      }))
+      setUsers(updatedUsers)
     }
+
     const handleUsersUpdate = updatedUsers => {
-      setUsers(
-        updatedUsers.map(user => ({
-          ...user,
-          avatarUrl: `https://api.dicebear.com/9.x/lorelei/svg?seed=${user.username}`,
-        })),
-      )
+      const updatedUsersWithAvatar = updatedUsers.map(user => ({
+        ...user,
+        avatarUrl: `https://api.dicebear.com/9.x/lorelei/svg?seed=${user.username}`,
+      }))
+      setUsers(updatedUsersWithAvatar)
     }
 
     const handleDisconnect = () => {
@@ -49,6 +64,7 @@ export default function useChat({ username, socket }) {
     }
 
     socket.on('connect', handleConnect)
+    socket.on('session', handleSession)
     socket.on('channels', handleChannels)
     socket.on('message:channel', handleMessage)
     socket.on('users', handleUsers)
@@ -57,6 +73,7 @@ export default function useChat({ username, socket }) {
 
     return () => {
       socket.off('connect', handleConnect)
+      socket.off('session', handleSession)
       socket.off('channels', handleChannels)
       socket.off('message:channel', handleMessage)
       socket.off('users', handleUsers)

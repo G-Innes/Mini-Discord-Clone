@@ -1,48 +1,86 @@
-import { useState } from 'react'
-import userButton from '@/components/CSS/UserStatusButton.module.css'
-import styles from '@/components/CSS/Layout.module.css'
+import { useState, useEffect } from 'react';
+import '@/index.css';
 
 export default function UserList({ users, avatarUrl }) {
-  const [filter, setFilter] = useState('')
+  const [filter, setFilter] = useState('');
+  const [open, setOpen] = useState(true);
+
+
+  // Function to check and update the sidebar state based on window width
+  const updateSidebarState = () => {
+    if (window.innerWidth < 768) { // Collapse for screens smaller than 768px
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    updateSidebarState(); // Check initially
+    window.addEventListener('resize', updateSidebarState); // Add resize listener
+
+    // Cleanup function to remove the event listener
+    return () => window.removeEventListener('resize', updateSidebarState);
+  }, []);
+
+
+  const sessionID = localStorage.getItem('sessionID');
 
   const filteredUsers = users
     .filter(user => {
-      if (filter === 'online') return user.connected
-      if (filter === 'offline') return !user.connected
-      return true
+      if (sessionID) {
+        return user.sessionID === sessionID; // Filter users by session ID
+      }
+      if (filter === 'online') return user.connected;
+      if (filter === 'offline') return !user.connected;
+      return true;
     })
-    .sort((a, b) => b.connected - a.connected)
+    .sort((a, b) => b.connected - a.connected);
 
   return (
-    <div className={styles.sidebar}>
-      <h2>Users</h2>
-      <div>
-        <button className={userButton.button} onClick={() => setFilter('all')}>
+    <div className={`sticky right-0 top-0 flex flex-col duration-300 h-screen p-5 pt-5 bg-med-grey transform ${open ? 'w-48==72' : 'w-16'}`}>
+      <img
+        src="../../assets/expand.svg"
+        alt="control"
+        className={`${!open && 'rotate-180'} absolute cursor-pointer rounded-full -left-3 z-10 top-16 w-7 border-2 border-white`}
+        onClick={() => setOpen(!open)}
+      />
+      
+      <div className="flex gap-x-4 items-center justify-end mb-10">
+        <h1 className={`text-white origin-right font-medium text-xl duration-300 ${!open && 'scale-0'}`}>Users</h1>
+        <img src="../../assets/discord.svg" alt="logo" className={`cursor-pointer duration-500 w-16 h-16`} />
+      </div>
+
+      <div className={`flex justify-center ${!open && 'hidden'}`}>
+        <button className="flex items-center justify-end px-4 py-2 text-gray-100 hover:bg-gray-700" onClick={() => setFilter('all')}>
           All
         </button>
-        <button className={userButton.button} onClick={() => setFilter('online')}>
+        <button className="flex items-center justify-end px-4 py-2 text-gray-100 hover:bg-gray-700" onClick={() => setFilter('online')}>
           Online
         </button>
-        <button className={userButton.button} onClick={() => setFilter('offline')}>
+        <button className="flex items-center justify-end px-4 py-2 text-gray-100 hover:bg-gray-700" onClick={() => setFilter('offline')}>
           Offline
         </button>
-        <ul className={styles.userListItems}>
-          {filteredUsers.map((user, index) => {
-            const displayName = user.username || 'User'
-            const status = user.connected ? '🟢' : '🔴'
-            return (
-              <li key={user.id || index} style={{ margin: '10px' }}>
-                <img
-                  src={avatarUrl}
-                  alt="avatar"
-                  style={{ width: 30, height: 30, borderRadius: '50%', marginRight: '10px' }}
-                />
-                {`${displayName} ${status}`}
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+        </div>
+
+        <div className={`list-none overflow-auto ${!open && 'hidden'}`}>
+        {filteredUsers.map((user, index) => {
+          const displayName = user.username || 'User';
+          const status = user.connected ? '🟢' : '🔴';
+          return (
+            <li href="#" key={user.id || index} className="flex items-center justify-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+              <img
+                src={avatarUrl}
+                alt="avatar"
+                className="w-8 h-8 rounded-full ml-2"
+              />
+              {`${displayName} ${status}`}
+            </li>
+          );
+        })}
+        </div>
+        
+
     </div>
-  )
+  );
 }

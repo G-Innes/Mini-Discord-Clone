@@ -5,16 +5,24 @@ import UserList from './User/UserList'
 import MessageInput from './MessageInput'
 import ChannelList from './ChannelList'
 import useChat from './useChat'
-import styles from '@/components/CSS/Layout.module.css'
+import '@/index.css'
 
-export default function Chat({ user }) {
+
+export default function Chat({ user, isConnected, setIsConnected, setUser}) {
   const { channels, messages, users } = useChat({ username: user.username, socket })
   const [currentChannel, setCurrentChannel] = useState({ name: 'welcome' })
   const [message, setMessage] = useState('')
 
   const handleSendMessage = () => {
     if (message && currentChannel) {
-      socket.emit('message:channel:send', currentChannel.name, message)
+      const messageObject = {
+        id: Date.now(),
+        user: { username: user.username },
+        message: message,
+        timestamp: Date.now(),
+      };
+      console.log('Sending message:', messageObject);
+      socket.emit('message:channel:send', currentChannel.name, messageObject);
       setMessage('')
     }
   }
@@ -25,30 +33,40 @@ export default function Chat({ user }) {
   const currentMessages = messages[currentChannel.name] || []
 
   return (
-    <div className={styles.layout}>
-      <h1 className={styles.header}>Welcome {user.username}</h1>
-      <div className={styles.main}>
-        <ChannelList
-          className={styles.sidebar}
-          channels={channels}
-          currentChannel={currentChannel}
-          onChannelChange={handleChannelChange}
-        />
-        <div className={styles.chatSection}>
-          <div className={styles.messages}>
-            {currentMessages.map(msg => (
-              <Message key={msg.id} message={msg} avatarUrl={user.avatarUrl} />
-            ))}
-          </div>
 
-          <MessageInput
-            message={message}
-            onMessageChange={setMessage}
-            onSendMessage={handleSendMessage}
-          />
+      <div className="flex h-screen">
+      <ChannelList
+        channels={channels}
+        currentChannel={currentChannel}
+        onChannelChange={handleChannelChange}
+        isConnected={isConnected}
+        setIsConnected={setIsConnected}
+        setUser={setUser}
+        className="w-1/5"
+      />
+
+
+      <div className="flex flex-col w-3/5 flex-grow">
+        <div className="overflow-auto h-full bg-light-grey">
+          {currentMessages.map(msg => (
+            <div key={msg.id} className="p-4  text-white">
+              <Message username={msg.username} message={msg.message} avatarUrl={user.avatarUrl} />
+            </div>
+          ))}
         </div>
-        <UserList users={users} avatarUrl={user.avatarUrl} />
+
+
+        <MessageInput
+          message={message}
+          onMessageChange={setMessage}
+          onSendMessage={handleSendMessage}
+
+        />
       </div>
+
+
+      <UserList users={users} avatarUrl={user.avatarUrl} className="w-1/5" />
     </div>
+
   )
 }
