@@ -44,7 +44,7 @@ Disconnecting, however, means that the user is no longer currently online, but i
 ### WebSocket server state
 
 User list, sessions and messages are stored in memory. When the WebSocket server is restarted, all data is lost.
-
+6
 ### Running the server
 
 After installing dependencies with `npm install`, use the following command to start the WebSocket server:

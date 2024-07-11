@@ -1,5 +1,5 @@
 export default function Message({ message, avatarUrl }) {
-  // Ensure message.timestamp is a Date object
+
   const timestamp = new Date(message.timestamp)
 
   const formattedTime = timestamp.toLocaleString('en-US', {
@@ -9,16 +9,16 @@ export default function Message({ message, avatarUrl }) {
   })
 
   return (
-    <div style={{ display: 'flex', alignItems: 'start', marginBottom: '6px' }}>
+    <div className="flex items-start mb-1.5">
       <img
         src={avatarUrl}
         alt="Avatar"
-        style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }}
+        className="w-12 h-12 rounded-full mr-2.5"
       />
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <h3 style={{ fontSize: '1rem' }}>{message.username}</h3>
-        <p style={{ fontSize: '1.2rem', marginTop: '2px' }}>{message.message}</p>
-        <span style={{ fontSize: '0.7rem' }}>{formattedTime}</span>
+      <div className="flex flex-col">
+        <h3 className="text-base font-extrabold">{message.user.username}</h3>
+        <p className="text-lg mt-0.5">{message.message}</p>
+        <span className="text-xs font-thin">{formattedTime}</span>
       </div>
     </div>
   )

@@ -19,7 +19,7 @@ export default function useChat({ username, socket }) {
 
     const handleConnect = () => {
       console.log('Connected to Websocket')
-      socket.emit('channels:join', 'welcome') // Join welcome channel on connect
+      socket.emit('channels:join', 'welcome')
 
       socket.emit('message:channel:send', 'welcome', {
         message: `${username} has joined the chat!`,
@@ -29,7 +29,7 @@ export default function useChat({ username, socket }) {
     }
 
     const handleSession = session => {
-      sessionStorage.setItem('sessionId', session.sessionId)
+      localStorage.setItem('sessionId', session.sessionId)
     }
 
     const handleChannels = channels => {
