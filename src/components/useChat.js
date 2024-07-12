@@ -21,6 +21,13 @@ export default function useChat({ username, avatarUrl, socket }) {
       console.log('Connected to Websocket')
       socket.emit('channels:join', 'welcome')
 
+      socket.emit('message:channel:history', 'welcome', history => {
+        setMessages(prevMessages => ({
+          ...prevMessages,
+          welcome: history,
+        }))
+      })
+
       socket.emit('message:channel:send', 'welcome', {
         message: `${username} has joined the chat!`,
         user: { username, avatarUrl },
@@ -43,13 +50,13 @@ export default function useChat({ username, avatarUrl, socket }) {
       }))
     }
 
-    const handleUsers = (users) => {
-      setUsers(users);
-    };
+    const handleUsers = users => {
+      setUsers(users)
+    }
 
-    const handleUsersUpdate = (updatedUsers) => {
-      setUsers(updatedUsers);
-    };
+    const handleUsersUpdate = updatedUsers => {
+      setUsers(updatedUsers)
+    }
 
     const handleDisconnect = () => {
       console.log('Disconnected from Websocket')

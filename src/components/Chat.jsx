@@ -26,9 +26,16 @@ export default function Chat({ user, isConnected, setIsConnected, setUser}) {
       setMessage('')
     }
   }
+
   const handleChannelChange = channel => {
-    setCurrentChannel(channel)
-  }
+    setCurrentChannel(channel);
+    socket.emit('message:channel:history', channel.name, (history) => {
+      setMessage((prevMessages) => ({
+        ...prevMessages,
+        [channel.name]: history,
+      }));
+    });
+  };
 
   const currentMessages = messages[currentChannel.name] || []
 
