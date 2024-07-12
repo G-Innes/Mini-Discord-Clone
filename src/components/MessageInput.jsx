@@ -3,7 +3,9 @@ import '@/index.css';
 export default function MessageInput({ message, onMessageChange, onSendMessage }) {
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
-    onSendMessage();
+    if (message.trim()) {
+      onSendMessage();
+    }
   };
 
   return (
@@ -18,6 +20,7 @@ export default function MessageInput({ message, onMessageChange, onSendMessage }
       <button
         type="submit"
         className="p-3 bg-med-grey text-white rounded hover:bg-purple focus:outline-none"
+        disabled={!message.trim()}
       >
         Send Message
       </button>

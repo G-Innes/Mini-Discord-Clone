@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function useChat({ username, socket }) {
+export default function useChat({ username, avatarUrl, socket }) {
   const [channels, setChannels] = useState([])
   const [messages, setMessages] = useState({ welcome: [] })
   const [users, setUsers] = useState([])
@@ -8,9 +8,9 @@ export default function useChat({ username, socket }) {
   useEffect(() => {
     const storedSessionId = localStorage.getItem('sessionId')
     if (storedSessionId) {
-      socket.auth = { sessionId: storedSessionId, username }
+      socket.auth = { sessionId: storedSessionId, username, avatarUrl }
     } else {
-      socket.auth = { username }
+      socket.auth = { username, avatarUrl }
     }
 
     if (!socket.connected) {
@@ -23,7 +23,7 @@ export default function useChat({ username, socket }) {
 
       socket.emit('message:channel:send', 'welcome', {
         message: `${username} has joined the chat!`,
-        user: { username },
+        user: { username, avatarUrl },
         timestamp: Date.now(),
       })
     }
@@ -43,21 +43,13 @@ export default function useChat({ username, socket }) {
       }))
     }
 
-    const handleUsers = users => {
-      const updatedUsers = users.map(user => ({
-        ...user,
-        avatarUrl: `https://api.dicebear.com/9.x/lorelei/svg?seed=${user.username}`,
-      }))
-      setUsers(updatedUsers)
-    }
+    const handleUsers = (users) => {
+      setUsers(users);
+    };
 
-    const handleUsersUpdate = updatedUsers => {
-      const updatedUsersWithAvatar = updatedUsers.map(user => ({
-        ...user,
-        avatarUrl: `https://api.dicebear.com/9.x/lorelei/svg?seed=${user.username}`,
-      }))
-      setUsers(updatedUsersWithAvatar)
-    }
+    const handleUsersUpdate = (updatedUsers) => {
+      setUsers(updatedUsers);
+    };
 
     const handleDisconnect = () => {
       console.log('Disconnected from Websocket')
@@ -81,7 +73,7 @@ export default function useChat({ username, socket }) {
       socket.off('disconnect', handleDisconnect)
       socket.disconnect()
     }
-  }, [username, socket])
+  }, [username, socket, avatarUrl])
 
   return { channels, messages, users }
 }

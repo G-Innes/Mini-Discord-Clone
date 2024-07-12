@@ -9,7 +9,7 @@ import '@/index.css'
 
 
 export default function Chat({ user, isConnected, setIsConnected, setUser}) {
-  const { channels, messages, users } = useChat({ username: user.username, socket })
+  const { channels, messages, users } = useChat({ username: user.username, avatarUrl: user.avatarUrl, socket })
   const [currentChannel, setCurrentChannel] = useState({ name: 'welcome' })
   const [message, setMessage] = useState('')
 
@@ -17,7 +17,7 @@ export default function Chat({ user, isConnected, setIsConnected, setUser}) {
     if (message && currentChannel) {
       const messageObject = {
         id: Date.now(),
-        user: { username: user.username },
+        user: { username: user.username, avatarUrl: user.avatarUrl },
         message: message,
         timestamp: Date.now(),
       };
@@ -50,7 +50,7 @@ export default function Chat({ user, isConnected, setIsConnected, setUser}) {
         <div className="overflow-auto h-full bg-light-grey">
           {currentMessages.map(msg => (
             <div key={msg.id} className="p-4  text-white">
-              <Message username={msg.username} message={msg.message} avatarUrl={user.avatarUrl} />
+            <Message username={msg.username} message={msg.message} avatarUrl={msg.avatarUrl} />
             </div>
           ))}
         </div>
@@ -65,7 +65,7 @@ export default function Chat({ user, isConnected, setIsConnected, setUser}) {
       </div>
 
 
-      <UserList users={users} avatarUrl={user.avatarUrl} className="w-1/5" />
+      <UserList users={users} className="w-1/5" />
     </div>
 
   )

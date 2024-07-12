@@ -26,6 +26,7 @@ module.exports = {
         return {
           userId: session.userId,
           username: session.username,
+          avatarUrl: session.avatarUrl,
           connected: session.connected,
         }
       })
