@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import '@/index.css';
 
-export default function UserList({ users, avatarUrl }) {
+export default function UserList({ users }) {
   const [filter, setFilter] = useState('');
   const [open, setOpen] = useState(true);
-
+  console.log('users', users);
 
   // Function to check and update the sidebar state based on window width
   const updateSidebarState = () => {
-    if (window.innerWidth < 768) { // Collapse for screens smaller than 768px
+    if (window.innerWidth < 768) {
       setOpen(false);
     } else {
       setOpen(true);
@@ -36,6 +36,7 @@ export default function UserList({ users, avatarUrl }) {
       return true;
     })
     .sort((a, b) => b.connected - a.connected);
+    console.log('filteredUsers', filteredUsers);
 
   return (
     <div className={`sticky right-0 top-0 flex flex-col duration-300 h-screen p-5 pt-5 bg-med-grey transform ${open ? 'w-48==72' : 'w-16'}`}>
@@ -66,11 +67,13 @@ export default function UserList({ users, avatarUrl }) {
         <div className={`list-none overflow-auto ${!open && 'hidden'}`}>
         {filteredUsers.map((user, index) => {
           const displayName = user.username || 'User';
+          const avatar= user.avatarUrl;
           const status = user.connected ? '🟢' : '🔴';
+          console.log('avatar', avatar);
           return (
             <li href="#" key={user.id || index} className="flex items-center justify-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
               <img
-                src={avatarUrl}
+                src={avatar}
                 alt="avatar"
                 className="w-8 h-8 rounded-full ml-2"
               />

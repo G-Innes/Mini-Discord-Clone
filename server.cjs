@@ -37,6 +37,7 @@ io.use(async (socket, next) => {
       socket.sessionId = sessionId
       socket.userId = session.userId
       socket.username = session.username
+      socket.avatarUrl = session.avatarUrl
 
       sessions.setSession(sessionId, { ...session, connected: true }); // Added to update session as connected
       next()
@@ -44,10 +45,12 @@ io.use(async (socket, next) => {
   }
 
   const username = socket.handshake.auth.username || `anonymous_${generateRandomId(2)}`
+  const avatarUrl = socket.handshake.auth.avatarUrl || 'default_avatar_url';
 
   socket.sessionId = generateRandomId()
   socket.userId = generateRandomId()
   socket.username = username
+  socket.avatarUrl = avatarUrl
 
   next()
 })
@@ -59,6 +62,7 @@ io.on('connection', socket => {
     sessionId: socket.sessionId,
     userId: socket.userId,
     username: socket.username,
+    avatarUrl: socket.avatarUrl,
     connected: true,
   }
 
@@ -74,6 +78,7 @@ io.on('connection', socket => {
     socket.in(WELCOME_CHANNEL).emit('user:join', {
       userId: currentSession.userId,
       username: currentSession.username,
+      avatarUrl: currentSession.avatarUrl,
       connected: true,
     })
   }
@@ -85,6 +90,7 @@ io.on('connection', socket => {
     socket.in(WELCOME_CHANNEL).emit('user:leave', {
       userId: currentSession.userId,
       username: currentSession.username,
+      avatarUrl: currentSession.avatarUrl,
       connected: false,
     })
 
@@ -98,7 +104,8 @@ io.on('connection', socket => {
 
     if (!registeredChannel) return
 
-    const builtMessage = buildMessage(currentSession, message)
+    const avatarUrl = currentSession.avatarUrl;
+    const builtMessage = buildMessage(currentSession, message, avatarUrl)
 
     registeredChannel.messages.push(builtMessage)
 
@@ -116,11 +123,12 @@ io.on('connection', socket => {
       connected: false,
     })
 
-    io.emit('users:update', sessions.getAllUsers()) // Update all clients
+    io.emit('users:update', sessions.getAllUsers());
 
     socket.broadcast.emit('user:disconnect', {
       userId: session.userId,
       username: session.username,
+      avatarUrl: session.avatarUrl,
       connected: false,
     })
   })
