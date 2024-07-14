@@ -2,22 +2,22 @@ import { useState } from 'react'
 import '@/index.css'
 
 const avatars = [
-  '../../assets/avatars/cat.svg',
-  '../../assets/avatars/dog.svg',
-  '../../assets/avatars/dragon.svg',
-  '../../assets/avatars/elephant.svg',
-  '../../assets/avatars/panda.svg',
-  '../../assets/avatars/wolf.svg',
-  '../../assets/avatars/zebra.svg',
+  '/assets/avatars/cat.svg',
+  '/assets/avatars/dog.svg',
+  '/assets/avatars/dragon.svg',
+  '/assets/avatars/elephant.svg',
+  '/assets/avatars/panda.svg',
+  '/assets/avatars/wolf.svg',
+  '/assets/avatars/zebra.svg',
 ]
 
-export default function LoginForm({ setUser }) {
+export default function LoginForm({ handleLogin }) {
   const [name, setName] = useState('')
   const [selectedAvatar, setSelectedAvatar] = useState(avatars[3])
 
   function handleSubmit(event) {
     event.preventDefault()
-    setUser({ username: name, avatarUrl: selectedAvatar })
+    handleLogin({ username: name, avatarUrl: selectedAvatar })
   }
 
   return (

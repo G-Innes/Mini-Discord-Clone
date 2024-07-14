@@ -1,5 +1,4 @@
 export default function Message({ username, message, avatarUrl }) {
-
   const timestamp = new Date(message.timestamp)
 
   const formattedTime = timestamp.toLocaleString('en-US', {
@@ -10,11 +9,7 @@ export default function Message({ username, message, avatarUrl }) {
 
   return (
     <div className="flex items-start mb-1.5">
-      <img
-        src={avatarUrl}
-        alt="Avatar"
-        className="w-12 h-12 rounded-full mr-2.5"
-      />
+      <img src={avatarUrl} alt="Avatar" className="w-12 h-12 rounded-full mr-2.5" />
       <div className="flex flex-col">
         <h3 className="text-base font-extrabold">{username}</h3>
         <p className="text-lg mt-0.5">{message.message}</p>

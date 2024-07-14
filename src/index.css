@@ -1,44 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #ffffff;
-  background-color: #36393f;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+html {
+  font-family: 'Inconsolata', monospace;
 }
-ul {
-  list-style-type: none;
-  padding: auto;
-  margin: auto;
+body {
+  font-family: 'Inconsolata', monospace;
 }
-
-#root {
-  width: 100%;
-  background-color: #36393f;
-  color: #ffffff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.flex-container {
-  display: flex;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.flex-row {
-  flex-direction: row;
-}
-
-.flex-center {
-  justify-content: center;
-  align-items: center;
-} */
