@@ -9,7 +9,7 @@ module.exports = {
       username: session.username,
       avatarUrl: session.avatarUrl,
       message,
-      timestamp: new Date(), // Added timestamp
+      timestamp: new Date(),
     }
   },
 }

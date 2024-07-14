@@ -34,7 +34,6 @@ The WebSocket server uses [socket.io](https://socket.io). The main server file i
 - `user:leave` - client should emit this event when user explicitly leaves the server.
 - `message:channel:send` - client should emit this event when user sends a message to a specific channel.
 
-
 #### Leaving vs disconnecting
 
 In Discord, one can join and leave the server. When leaving, such a user is no longer present in the server user list.
@@ -45,6 +44,7 @@ Disconnecting, however, means that the user is no longer currently online, but i
 
 User list, sessions and messages are stored in memory. When the WebSocket server is restarted, all data is lost.
 6
+
 ### Running the server
 
 After installing dependencies with `npm install`, use the following command to start the WebSocket server:

@@ -1,22 +1,22 @@
-import { socket } from '@/libs/socket';
-import '@/index.css';
+import { socket } from '@/libs/socket'
+import '@/index.css'
 
 export default function ConnectionControls({ isConnected, setIsConnected, setUser }) {
   const leaveServer = () => {
-    socket.emit('leaveServer', { username: '' });
-    setUser({ username: '', avatarUrl: '' });
-    setIsConnected(false);
-  };
+    socket.emit('leaveServer', { username: '' })
+    setUser({ username: '', avatarUrl: '' })
+    setIsConnected(false)
+  }
 
   const toggleConnection = () => {
     if (isConnected) {
-      socket.disconnect();
-      setIsConnected(false);
+      socket.disconnect()
+      setIsConnected(false)
     } else {
-      socket.connect();
-      setIsConnected(true);
+      socket.connect()
+      setIsConnected(true)
     }
-  };
+  }
 
   return (
     <div className="flex flex-row items-center">
@@ -34,5 +34,5 @@ export default function ConnectionControls({ isConnected, setIsConnected, setUse
         Leave Server
       </button>
     </div>
-  );
-};
+  )
+}

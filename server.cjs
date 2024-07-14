@@ -39,13 +39,13 @@ io.use(async (socket, next) => {
       socket.username = session.username
       socket.avatarUrl = session.avatarUrl
 
-      sessions.setSession(sessionId, { ...session, connected: true }); // Added to update session as connected
+      sessions.setSession(sessionId, { ...session, connected: true }) // Added to update session as connected
       next()
     }
   }
 
   const username = socket.handshake.auth.username || `anonymous_${generateRandomId(2)}`
-  const avatarUrl = socket.handshake.auth.avatarUrl || 'default_avatar_url';
+  const avatarUrl = socket.handshake.auth.avatarUrl || 'default_avatar_url'
 
   socket.sessionId = generateRandomId()
   socket.userId = generateRandomId()
@@ -104,13 +104,21 @@ io.on('connection', socket => {
 
     if (!registeredChannel) return
 
-    const avatarUrl = currentSession.avatarUrl;
+    const avatarUrl = currentSession.avatarUrl
     const builtMessage = buildMessage(currentSession, message, avatarUrl)
 
     registeredChannel.messages.push(builtMessage)
 
     socket.to(channel).emit('message:channel', channel, builtMessage)
     socket.emit('message:channel', channel, builtMessage) // Send to the sender as well
+  })
+
+  socket.on('message:channel:history', (channel, callback) => {
+    const registeredChannel = channels.find(it => it.name === channel)
+
+    if (!registeredChannel) return callback([])
+
+    callback(registeredChannel.messages)
   })
 
   socket.on('disconnect', () => {
@@ -123,7 +131,7 @@ io.on('connection', socket => {
       connected: false,
     })
 
-    io.emit('users:update', sessions.getAllUsers());
+    io.emit('users:update', sessions.getAllUsers())
 
     socket.broadcast.emit('user:disconnect', {
       userId: session.userId,
