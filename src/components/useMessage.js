@@ -3,14 +3,17 @@ import { useCallback, useEffect, useState } from 'react'
 export default function useSocket(socket, username, avatarUrl) {
   const [messages, setMessages] = useState({ welcome: [] })
 
-  const fetchChannelHistory = useCallback((channel) => {
-    socket.emit('message:channel:history', channel, (history) => {
-      setMessages((prevMessages) => ({
-        ...prevMessages,
-        [channel]: history,
-      }));
-    });
-  }, [socket]);
+  const fetchChannelHistory = useCallback(
+    channel => {
+      socket.emit('message:channel:history', channel, history => {
+        setMessages(prevMessages => ({
+          ...prevMessages,
+          [channel]: history,
+        }))
+      })
+    },
+    [socket],
+  )
 
   useEffect(() => {
     const storedSessionId = localStorage.getItem('sessionId')
@@ -22,7 +25,7 @@ export default function useSocket(socket, username, avatarUrl) {
 
     const handleConnect = () => {
       socket.emit('channels:join', 'welcome')
-      fetchChannelHistory('welcome');
+      fetchChannelHistory('welcome')
 
       // socket.emit('message:channel:history', 'welcome', history => {
       //   setMessages(prevMessages => ({

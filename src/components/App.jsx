@@ -9,15 +9,15 @@ function App() {
   const [isConnected, setIsConnected] = useState(socket.connected)
   const [user, setUser] = useState({ username: '', avatarUrl: '' })
 
-  const handleLogin = (newUser) => {
-    setUser((prevUser) => {
+  const handleLogin = newUser => {
+    setUser(prevUser => {
       // Only update if the new username or avatarUrl is different
       if (prevUser.username !== newUser.username || prevUser.avatarUrl !== newUser.avatarUrl) {
-        return { ...prevUser, ...newUser };
+        return { ...prevUser, ...newUser }
       }
-      return prevUser; // No change if the user is the same
-    });
-  };
+      return prevUser // No change if the user is the same
+    })
+  }
 
   useEffect(() => {
     const handleConnect = () => setIsConnected(true)
@@ -33,15 +33,19 @@ function App() {
     }
   }, [])
 
-
   if (!user.username) {
     return <LoginForm handleLogin={handleLogin} />
   }
 
   return (
     <>
-    <div>
-        <Chat user={user} isConnected={isConnected} setIsConnected={setIsConnected} setUser={setUser}/>
+      <div>
+        <Chat
+          user={user}
+          isConnected={isConnected}
+          setIsConnected={setIsConnected}
+          setUser={setUser}
+        />
       </div>
     </>
   )
