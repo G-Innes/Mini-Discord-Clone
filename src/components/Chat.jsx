@@ -1,4 +1,4 @@
-import {  useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { socket } from '@/libs/socket'
 import Message from './Message'
 import UserList from './User/UserList'
@@ -9,18 +9,21 @@ import useMessage from './useMessage'
 import '@/index.css'
 
 export default function Chat({ user, isConnected, setIsConnected, setUser }) {
-  
-  
   const [currentChannel, setCurrentChannel] = useState({ name: 'welcome' })
   const [message, setMessage] = useState('')
-  const { messages, fetchChannelHistory } = useMessage(socket, user.username, user.avatarUrl, currentChannel)
+  const { messages, fetchChannelHistory } = useMessage(
+    socket,
+    user.username,
+    user.avatarUrl,
+    currentChannel,
+  )
   const { channels, users } = useChat(socket)
 
   useEffect(() => {
     if (currentChannel.name !== 'welcome') {
-      fetchChannelHistory(currentChannel.name);
+      fetchChannelHistory(currentChannel.name)
     }
-  }, [currentChannel.name, fetchChannelHistory]);
+  }, [currentChannel.name, fetchChannelHistory])
 
   const handleSendMessage = () => {
     if (message && currentChannel) {
