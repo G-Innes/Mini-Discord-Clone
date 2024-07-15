@@ -42,6 +42,7 @@ export default function Chat({ user, isConnected, setIsConnected, setUser }) {
   }
 
   const currentMessages = messages[currentChannel.name] || []
+  const avatarUrl = user.avatarUrl
 
   return (
     <div className="flex h-screen">
@@ -52,6 +53,8 @@ export default function Chat({ user, isConnected, setIsConnected, setUser }) {
         isConnected={isConnected}
         setIsConnected={setIsConnected}
         setUser={setUser}
+        username={user.username}
+        avatarUrl={avatarUrl}
         className="w-1/5"
       />
 
