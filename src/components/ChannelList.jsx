@@ -9,6 +9,8 @@ export default function ChannelList({
   isConnected,
   setIsConnected,
   setUser,
+  avatarUrl,
+  username,
 }) {
   const [open, setOpen] = useState(true)
 
@@ -79,6 +81,8 @@ export default function ChannelList({
           isConnected={isConnected}
           setIsConnected={setIsConnected}
           setUser={setUser}
+          avatarUrl={avatarUrl}
+          username={username}
         />
       </div>
     </div>
