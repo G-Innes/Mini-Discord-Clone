@@ -1,26 +1,32 @@
 # Discord Clone
 
-This application is designed as a miniature version of Discord, providing essential chat functionalities in a simplified interface. Built with React and Vite, the app leverages WebSocket/socket.IO for real-time communication across multiple tabs. Users can see each other's online status, chat in various channels, and switch between different chat rooms seamlessly.
+Welcome to the Discord Clone, a web application inspired by the popular communication platform, Discord. This project aims to replicate the essential features of Discord, such as real-time messaging, channel-based conversations, and user presence indicators. It's built using modern web technologies including React, Vite, Tailwind CSS for styling, and WebSocket/socket.IO for real-time communication.
 
-## Description
+## Features
 
-The Discord Clone is a web application that mimics the core features of Discord. It allows users to:
+The Discord Clone offers a simplified yet immersive chat experience, enabling users to:
 
-    -Connect with a unique username.
-    -Select and join different chat channels.
-    -Post messages to specific channels.
-    -View online status of users.
-    -Engage in real-time chat with others across different browser tabs.
+    -Sign in with a unique username.
+    -Join and participate in various chat channels.
+    -Send and receive messages in real-time.
+    -See who's online at any given moment.
+    -Seamlessly switch between different chat rooms.
 
-## React application
+# Technical Overview
 
-The application contains WebSocket socket.io object via `src/libs/socket.js`, which is imported inside `App.jsx`. Use the socket object to handle the connection and events.
+## Frontend
+
+The frontend of the application is developed with React, utilizing the fast build tool Vite for an optimized development experience. Tailwind CSS is integrated for styling, providing a sleek and responsive design.
+
+## Real-Time Communication
+
+For real-time communication, the application uses WebSocket with socket.io, ensuring instant message delivery and updates across all connected clients. This allows for a dynamic and interactive user experience similar to the real Discord platform.
 
 ## WebSocket server
 
-The WebSocket server uses [socket.io](https://socket.io). The main server file is located in the root directory, `server.cjs`. Additional supporting modules are placed inside the `server` folder.
+The core of the real-time functionality lies within the WebSocket server, which is built using socket.io. It handles all the real-time events such as user connections, message broadcasting, and channel management.
 
-### Supported events
+### Key Events
 
 - `connect` - emitted to the client when WebSocket connection is established with the server.
 - `session` - emitted when session is initialized after connecting to the server.
@@ -34,16 +40,17 @@ The WebSocket server uses [socket.io](https://socket.io). The main server file i
 - `user:leave` - client should emit this event when user explicitly leaves the server.
 - `message:channel:send` - client should emit this event when user sends a message to a specific channel.
 
-#### Leaving vs disconnecting
+## Persistence
 
-In Discord, one can join and leave the server. When leaving, such a user is no longer present in the server user list.
+Currently, all user data, sessions, and messages are stored in memory. This means that upon restarting the WebSocket server, all existing data will be lost.
 
-Disconnecting, however, means that the user is no longer currently online, but is still present in the server user list. Reconnecting to the server means the user becoming online again.
+## Getting Started
 
-### WebSocket server state
+To run the Discord Clone locally, follow these steps:
 
-User list, sessions and messages are stored in memory. When the WebSocket server is restarted, all data is lost.
-6
+## Prerequisites
+
+Ensure you have Node.js installed on your system to manage dependencies and run the project.
 
 ### Running the server
 
@@ -64,3 +71,6 @@ React + Vite dev server must be running separately:
 ```sh
 npm run dev
 ```
+This will launch the Discord Clone in your default web browser, ready for you to explore and use.
+
+Enjoy the simplified Discord experience!
