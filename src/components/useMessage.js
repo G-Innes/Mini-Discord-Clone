@@ -62,7 +62,7 @@ export default function useSocket(socket, username, avatarUrl) {
       socket.off('message:channel', handleMessage)
       socket.disconnect()
     }
-  }, [socket, username, avatarUrl])
+  }, [socket, username, avatarUrl, fetchChannelHistory])
 
   return { messages, fetchChannelHistory }
 }
