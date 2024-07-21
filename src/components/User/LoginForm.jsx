@@ -45,9 +45,9 @@ export default function LoginForm({ handleLogin }) {
             />
           </div>
           <div className="flex justify-center">
-            {avatars.map((avatar, index) => (
+            {avatars.map(avatar => (
               <img
-                key={index}
+                key={avatar}
                 src={avatar}
                 alt="avatar"
                 className={`cursor-pointer w-10 h-10 m-1 ${selectedAvatar === avatar ? 'border-2 rounded-full border-purple' : ''}`}
